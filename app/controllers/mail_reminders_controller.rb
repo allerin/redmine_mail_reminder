@@ -16,6 +16,7 @@ class MailRemindersController < ApplicationController
     @reminders = MailReminder.find_all_by_project_id(@project) if needs_refresh
     
     @reminder = MailReminder.new
+    @reminder.project_id = @project.id
   end
 
   def create
@@ -67,17 +68,23 @@ class MailRemindersController < ApplicationController
   end
 
   def update_interval_values
-    vals = MailReminder.interval_values_for(params[:interval])
+    vals = MailReminder.interval_values_for(params[:reminder][:interval])
     begin
       reminder = MailReminder.find(params[:mail_reminder_id])
     rescue ActiveRecord::RecordNotFound
       reminder = MailReminder.new
     end
-    
     render :update do |page|
-      page.replace_html "interval_values-#{params[:mail_reminder_id]}",
-      :partial => 'interval_values',
-      :locals => { :possible_values => vals, :selected_value => nil, :reminder => reminder}
+      page.call <<-JS
+        $('#interval_values-#{params[:mail_reminder_id]}').html('#{
+          j render :partial => 'interval_values',
+            :locals => {
+              :possible_values => vals,
+              :selected_value => nil,
+              :reminder => reminder
+            }
+        }')
+      JS
     end
   end
 

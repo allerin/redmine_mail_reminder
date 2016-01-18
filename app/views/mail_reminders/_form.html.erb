@@ -6,14 +6,15 @@
   </p>
   <p>
     <%= f.label l(:interval) %>:
-    <%= f.select :interval, reminders_intervals_for_options,:data => {:remote => true, :url  => {:action => "update_interval_values"},
-              :with => "'interval='+value +'&mail_reminder_id=#{reminder.new_record? ? 'new' : reminder.id}'"}
+    <%= f.select :interval, reminders_intervals_for_options, {}, :data => {:remote => true, :url  => url_for(:controller => "mail_reminders", :action => "update_interval_values", :project_id => reminder.project_id, :mail_reminder_id => reminder.new_record? ? 'new' : reminder.id), :with => "'interval='+value"}
     %>
   </p>
-    <%= render :partial => 'interval_values',
-               :locals => { :possible_values => MailReminder.interval_values_for(reminder.new_record? ? :daily : reminder.interval),
-                            :selected_value => reminder.interval_value,
-                            :reminder => reminder } %>
+    <div id="interval_values-<%= reminder.new_record? ? 'new' : reminder.id %>">
+      <%= render :partial => 'interval_values',
+                 :locals => { :possible_values => MailReminder.interval_values_for(reminder.new_record? ? :daily : reminder.interval),
+                              :selected_value => reminder.interval_value,
+                              :reminder => reminder } %>
+    </div>
     <p>
       <%= f.label l(:roles) %>:<br />
       <p>

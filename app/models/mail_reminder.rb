@@ -14,7 +14,7 @@ class MailReminder < ActiveRecord::Base
   validates_presence_of :query_id
   
   def self.intervals
-    [:daily, :weekly, :monthly]
+    [:daily, :weekly, :monthly, :quarterly, :half_yearly, :yearly]
   end
 
   def self.daily_intervals
@@ -42,8 +42,12 @@ class MailReminder < ActiveRecord::Base
       weekly_intervals.enum_for(:each_with_index).collect {|val,idx| [interval_value_display("weekly", val), idx]}
     when("monthly")
       monthly_intervals.enum_for(:each).collect {|val| [interval_value_display("monthly", val), val]}
-    else
-      []
+    when("quarterly")
+      [[interval_value_display("quarterly", 1), 3]]
+    when("half_yearly")
+      [[interval_value_display("half_yearly", 1), 6]]
+    when("yearly")
+      [[interval_value_display("yearly", 1), 12]]
     end
   end
 
@@ -57,6 +61,12 @@ class MailReminder < ActiveRecord::Base
       l(:every_weekly_format) % l(value.downcase.to_sym)
     when("monthly")
       l(:every_of_month_format) % value
+    when("quarterly")
+      l(:every_quarterly_format) % value
+    when("half_yearly")
+      l(:every_half_yearly_format) % value
+    when("yearly")
+      l(:every_yearly_format) % value
     else
       "Unknown"
     end
@@ -70,6 +80,12 @@ class MailReminder < ActiveRecord::Base
       execute_weekly?
     when "monthly"
       execute_monthly?
+    when "quarterly"
+      execute_quarterly?
+    when "half_yearly"
+      execute_half_yearly?
+    when "yearly"
+      execute_yearly?
     else
       false
     end
@@ -102,4 +118,17 @@ class MailReminder < ActiveRecord::Base
       return Time.now.mday == interval_value
     end
   end
+
+  def execute_quarterly?
+    TimeDifference.between(executed_at || updated_at, Time.now).in_months >= 3
+  end
+
+  def execute_half_yearly?
+    TimeDifference.between(executed_at || updated_at, Time.now).in_months >= 6
+  end
+
+  def execute_yearly?
+    TimeDifference.between(executed_at || updated_at, Time.now).in_months >= 12
+  end
+
 end

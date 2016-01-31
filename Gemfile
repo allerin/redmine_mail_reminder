@@ -7,3 +7,4 @@ gem 'nokogiri', '>=1.3'
 
 gem 'colorize'
 gem 'time_difference'
+gem 'whenever', '0.9.4'

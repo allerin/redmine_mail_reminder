@@ -24,6 +24,10 @@
       <% end %>
       </p>
     </p>
+    <p>
+      <%= f.label l(:field_description) %>:<br />
+      <%= f.text_area :description %>
+    </p>
     <%= f.submit reminder.new_record? ? l(:add) : l(:save) %>
 
     <% unless reminder.new_record? %>

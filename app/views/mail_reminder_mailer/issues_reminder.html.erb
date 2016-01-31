@@ -3,11 +3,15 @@
 <head>
 <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
 <% headers[:skip_premailer] = nil if headers[:skip_premailer] %>
-<%= stylesheet_link_tag '/stylesheets/application', 'jquery/jquery-ui-1.11.0', 'application', :media => 'all' %>
+<%= stylesheet_link_tag '/stylesheets/application', 'application', :media => 'all' %>
 </head>
 <body>
-<% @queries_data.each do |project, query, issues| %>
+<% @queries_data.each do |project, query, issues, reminder_description| %>
     <h1><%= "#{project.name}: #{query.name}" %></h1>
+    <br />
+    <p>
+      <%= reminder_description %>
+    </p>
     <table class="list issues">
         <thead>
             <tr>

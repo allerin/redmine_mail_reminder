@@ -28,7 +28,7 @@ class MailReminderMailer < ActionMailer::Base
   def issues_reminder(user, queries_data)
     User.current = user
     @queries_data = []
-    queries_data.each do |project, query|
+    queries_data.each do |project, query, reminder_description|
       query.project = project
       sort_init(query.sort_criteria.empty? ? [['id', 'desc']] : query.sort_criteria)
       @sort_criteria = SortCriteria.new
@@ -36,7 +36,7 @@ class MailReminderMailer < ActionMailer::Base
       @sort_criteria.criteria = @sort_default if @sort_criteria.empty?
       issues = query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
                             :order => sort_clause)
-      @queries_data << [project, query, issues] if issues.any?
+      @queries_data << [project, query, issues, reminder_description]
     end
 
     # Not Sending email if there are no issues

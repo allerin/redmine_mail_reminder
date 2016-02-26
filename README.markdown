@@ -1,7 +1,7 @@
 Redmine Issue Reminder
 ==============
 
-[![Join the chat at https://gitter.im/Hopebaytech/redmine_mail_reminder](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Hopebaytech/redmine_mail_reminder?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/Hopebaytech/redmine_mail_reminder](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Hopebaytech/redmine_mail_reminder?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![codebeat](https://codebeat.co/badges/bc198775-942c-4bfd-aaf8-6daac00c7bf9)](https://codebeat.co/projects/github-com-allerin-redmine_mail_reminder)
 
 [Plugin page on redmine.org](http://www.redmine.org/plugins/redmine_mail_reminder)
 
